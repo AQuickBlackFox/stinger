@@ -9,14 +9,13 @@ const char *kernelSource = "\n"\
 "               image2d_t output)        \n" \
 "{                                       \n" \
 "   int x = get_global_id(0);           \n" \
-"   int y = get_global_id(1);           \n" \
-"   float4 inp = read_imagef(texture, int2(x, y)); \n" \
-"   write_imagef(output, int2(x, y), inp); \n" \
+"   float4 inp = read_imagef(texture, int2(x, 0)); \n" \
+"   write_imagef(output, int2(x, 0), inp); \n" \
 "}                              \n" \
 "\n";
 
 int main() {
-    unsigned n = 64*64;
+    unsigned n = 64;
     uint32_t  *h_a;
     uint32_t *h_b;
 
@@ -47,14 +46,11 @@ int main() {
         h_b[i] = (uint32_t)0;
     }
 
-    size_t globalSize[2], localSize[2];
+    size_t globalSize, localSize;
     cl_int err;
 
-    localSize[0] = 64;
-    localSize[1] = 64;
-    size_t totalLocalSize = localSize[0]*localSize[1];
-    globalSize[0] = ceil(n/(float)totalLocalSize)*totalLocalSize;
-    globalSize[1] = ceil(n/(float)totalLocalSize)*totalLocalSize;
+    localSize = 64;
+    globalSize = ceil(n/(float)localSize)*localSize;
 
     err = clGetPlatformIDs(1, &cpPlatform, NULL);
 
@@ -70,8 +66,8 @@ int main() {
 
     kernel = clCreateKernel(program, "imageAdd", &err);
 
-    d_a = clCreateImage2D(context, CL_MEM_READ_WRITE, &inputFormat, 64, 64, 64*sizeof(uint32_t), NULL, NULL);
-    d_b = clCreateImage2D(context, CL_MEM_READ_WRITE, &outputFormat, 64, 64, 64*sizeof(uint32_t), NULL, NULL);
+    d_a = clCreateImage2D(context, CL_MEM_READ_WRITE, &inputFormat, n, 1, n*sizeof(uint32_t), NULL, NULL);
+    d_b = clCreateImage2D(context, CL_MEM_READ_WRITE, &outputFormat, n, 1, n*sizeof(uint32_t), NULL, NULL);
 
     err = clEnqueueWriteBuffer(queue, d_a, CL_TRUE, 0, inputImageBytes, h_a, 0, NULL, NULL);
     err |= clEnqueueWriteBuffer(queue, d_b, CL_TRUE, 0, outputImageBytes, h_b, 0, NULL, NULL);
@@ -79,7 +75,7 @@ int main() {
     err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_a);
     err|= clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_b);
 
-    err = clEnqueueNDRangeKernel(queue, kernel, 2, NULL, &globalSize[0], &localSize[0], 0, NULL, NULL);
+    err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize, 0, NULL, NULL);
 
     clFinish(queue);
 
