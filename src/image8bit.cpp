@@ -6,12 +6,14 @@
 #include"cl_help.h"
 
 const char *kernelSource = "\n"\
-"__kernel void imageAdd(image2d_t input, \n" \
-"                       image2d_t output)        \n" \
+"__kernel void imageAdd(__read_only image2d_t input, \n" \
+"                       __write_only image2d_t output)        \n" \
 "{                                       \n" \
-"   int x = get_global_id(0);           \n" \
-"   float4 inp = read_imagef(input, int2(x, 0)); \n" \
-"   write_imagef(output, int2(x, 0), inp); \n" \
+"   int2 x2; \n" \
+"   x2.x = get_global_id(0);           \n" \
+"   x2.y = 0; \n"
+"   float4 inp = read_imagef(input, x2); \n" \
+"   write_imagef(output, x2, inp); \n" \
 "}                              \n" \
 "\n";
 
@@ -79,7 +81,6 @@ int main() {
 
     localSize = 64;
     globalSize = ceil(n/(float)localSize)*localSize;
-    std::cout<<localSize<<" "<<globalSize<<std::endl;
     err = clGetPlatformIDs(1, &cpPlatform, NULL);
 	CL_CHECK(err);
     err = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
@@ -110,13 +111,14 @@ int main() {
     err |= clEnqueueWriteBuffer(queue, d_b, CL_TRUE, 0, outputImageBytes, h_b, 0, NULL, NULL);
 	CL_CHECK(err);
     err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &img_a);
-    err|= clSetKernelArg(kernel, 0, sizeof(cl_mem), &img_b);
+    err|= clSetKernelArg(kernel, 1, sizeof(cl_mem), &img_b);
 	CL_CHECK(err);
-
+	std::cout<<"Launching Kernel"<<std::endl;
     err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize, 0, NULL, NULL);
 	CL_CHECK(err);
-    clFinish(queue);
-
+    err = clFinish(queue);
+	CL_CHECK(err);
+	std::cout<<"Reading buffer"<<std::endl;
     err = clEnqueueReadBuffer(queue, d_b, CL_TRUE, 0, outputImageBytes, h_b, 0, NULL, NULL);
 	CL_CHECK(err);
     std::cout<<h_a[10]<<" "<<h_b[10]<<std::endl;

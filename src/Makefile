@@ -10,7 +10,7 @@ image:
 
 image-cl:
 	mkdir -p bin
-	$(CLANG) -target amdgcn-amd-amdhsa-opencl -x cl -D__AMD__=1 -D__gfx803__=1 -D__gfx803=1 -D__OPENCL_VERSION__=120 -D__IMAGE_SUPPORT__=1 -O3 -m64 -include /opt/rocm/opencl/include/opencl-c.h image.cl 
+	$(CLANG) -target amdgcn-amd-amdhsa-opencl -x cl -D__AMD__=1 -D__gfx803__=1 -D__gfx803=1 -D__OPENCL_VERSION__=200 -D__IMAGE_SUPPORT__=1 -O3 -m64 -include /opt/rocm/opencl/include/opencl-c.h image.cl 
 
 clean:
 	rm -rf ./bin
