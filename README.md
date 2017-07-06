@@ -1,2 +1,2 @@
 # stinger
-HSA RT Examples
+My OpenCL Code
