@@ -4,13 +4,13 @@ LIB_DIR=/opt/rocm/opencl/lib/x86_64
 LIB=OpenCL
 CLANG=clang
 
-image:
+ImageAddRGBA8:
 	mkdir -p bin
-	$(CC) -I$(INC_FLAGS) image8bit.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/image
+	$(CC) -I$(INC_FLAGS) ImageAddRGBA8.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBA8
 
-image-8:
+ImageAddRGBA16:
 	mkdir -p bin
-	$(CC) -I$(INC_FLAGS) image_add_8.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/image_add_8
+	$(CC) -I$(INC_FLAGS) ImageAddRGBA16.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBA16
 
 image-cl:
 	mkdir -p bin
