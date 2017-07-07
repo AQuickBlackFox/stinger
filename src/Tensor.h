@@ -1,14 +1,8 @@
 #pragma once
 
+#include "DataTypes.h"
+
 namespace stinger {
-
-typedef struct {
-    unsigned short x : 5;
-} ushort5_t;
-
-typedef struct {
-    unsigned int x : 10;
-} uint10_t;
 
 template<typename T>
 struct Tensor{

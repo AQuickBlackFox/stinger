@@ -22,4 +22,4 @@ test:
 	./bin/ImageAddRGBA8; ./bin/ImageAddRGBA16
 
 clean:
-	rm -rf ./bin
+	rm -rf ./bin a.out
