@@ -7,8 +7,8 @@ typedef struct {
 } ushort5_t;
 
 typedef struct {
-    unsigned short x : 10;
-} ushort10_t;
+    unsigned int x : 10;
+} uint10_t;
 
 template<typename T>
 struct Tensor{
