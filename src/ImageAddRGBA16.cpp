@@ -49,5 +49,8 @@ int main(){
 
     ImageC.FromGPU();
 
-    std::cout<<(int)C[0]<<std::endl;
+    for(int i=0;i<n;i++) {
+        VALIDATE(C[i], A[i] + B[i], i);
+    }
+    SUCCESS;
 }

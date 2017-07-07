@@ -2,6 +2,14 @@
 
 namespace stinger {
 
+typedef struct {
+    unsigned short x : 5;
+} ushort5_t;
+
+typedef struct {
+    unsigned short x : 10;
+} ushort10_t;
+
 template<typename T>
 struct Tensor{
 public:
@@ -22,3 +30,12 @@ void fill(Tensor<T>& t, T val) {
 }
 
 }
+
+
+#define VALIDATE(result, expected, iter) \
+    if(result != expected) { \
+        std::cerr<<"FILE: "<<__FILE__<<" FUNC: "<<__func__<<" LINE: "<<__LINE__<<" | Expected: "<<expected<<" at: "<<iter<<" but got: "<<result<<std::endl; \
+        exit(1); \
+    }
+
+#define SUCCESS std::cout<<"Data Validation Success"<<std::endl;
