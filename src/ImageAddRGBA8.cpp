@@ -13,7 +13,7 @@ int main(){
     unsigned int width  = 64;
     unsigned int n = height * width;
 
-    typedef short T;
+    typedef char T;
 
     stinger::Tensor<T>A(width, height);
     stinger::Tensor<T>B(width, height);
@@ -28,9 +28,9 @@ int main(){
     kernel = clCreateKernel(program, "Filter", &error);
     CL_CHECK(error);
 
-    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT16, CL_MEM_READ_ONLY>ImageA(A);
-    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT16, CL_MEM_READ_ONLY>ImageB(B);
-    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT16, CL_MEM_WRITE_ONLY>ImageC(C);
+    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT8, CL_MEM_READ_ONLY>ImageA(A);
+    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT8, CL_MEM_READ_ONLY>ImageB(B);
+    stinger::Image2D<T, CL_RGBA, CL_UNORM_INT8, CL_MEM_WRITE_ONLY>ImageC(C);
     ImageA.ToGPU();
     ImageB.ToGPU();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include"cl_helper.h"
+#include"CLHelper.h"
 
 static cl_platform_id platform_id = NULL;
 static cl_device_id device_id = NULL;
@@ -44,7 +44,7 @@ void Init() {
     CL_CHECK(error);
     context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &error);
     CL_CHECK(error);
-    queue = clCreateCommandQueue(context, device_id, 0, &error);
+    queue = clCreateCommandQueueWithProperties(context, device_id, NULL, &error);
     CL_CHECK(error);
 }
 
@@ -74,7 +74,20 @@ public:
         region[0] = width;
         region[1] = height;
         region[2] = 1;
-        img = clCreateImage2D(context, Flags, &format, width, height, 0, NULL, &error);
+        cl_image_desc desc ;
+        desc.image_type = CL_MEM_OBJECT_IMAGE2D;
+        desc.image_width = width;
+        desc.image_height = height;
+        desc.image_depth = 1;
+        desc.image_array_size = 0;
+        desc.image_row_pitch = 0;
+        desc.image_slice_pitch = 0;
+        desc.num_mip_levels = 0;
+        desc.num_samples = 0;
+        desc.buffer = NULL;
+
+        img = clCreateImage(context, Flags, &format, &desc, NULL, &error);
+
         CL_CHECK(error);
     }
 
