@@ -10,9 +10,23 @@ ImageAddRGBA8:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) ImageAddRGBA8.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBA8
 
+ImageAddR8:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) ImageAddR8.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddR8
+
 ImageAddRGBA16:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) ImageAddRGBA16.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBA16
+
+ImageAddRGBA32:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) ImageAddRGBA32.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBA32
+
+ImageAddRGBAFloat:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) ImageAddRGBAFloat.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBAFloat
+
+
 
 image-cl:
 	mkdir -p bin
