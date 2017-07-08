@@ -24,7 +24,7 @@ int main(){
     stinger::fill(C, T(0));
 
     Init();
-    BuildProgram(LoadKernel("./kernels/image.cl"), context);
+    BuildProgram(LoadKernel("./kernels/imagef.cl"), context);
     kernel = clCreateKernel(program, "Filter", &error);
     CL_CHECK(error);
 
