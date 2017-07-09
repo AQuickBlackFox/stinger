@@ -1,2 +1,2 @@
 # stinger
-My OpenCL Code
+OpenCL Image code 
