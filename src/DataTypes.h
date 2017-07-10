@@ -61,6 +61,8 @@ typedef struct {
 } uint24_t;
 
 OP_MATH_1(uint24_t, +)
+OP_MATH_1(uint24_t, -)
+OP_MATH_1(uint24_t, *)
 OP_CMP_1(uint24_t, ==)
 
 typedef struct {
@@ -68,6 +70,8 @@ typedef struct {
 } ushort11_t;
 
 OP_MATH_1(ushort11_t, +)
+OP_MATH_1(ushort11_t, -)
+OP_MATH_1(ushort11_t, *)
 OP_CMP_1(ushort11_t, ==)
 
 typedef struct {
@@ -75,6 +79,8 @@ typedef struct {
 } ushort10_t;
 
 OP_MATH_1(ushort10_t, +)
+OP_MATH_1(ushort10_t, -)
+OP_MATH_1(ushort10_t, *)
 OP_CMP_1(ushort10_t, ==)
 
 typedef struct {
@@ -82,6 +88,8 @@ typedef struct {
 } ushort9_t;
 
 OP_MATH_1(ushort9_t, +)
+OP_MATH_1(ushort9_t, -)
+OP_MATH_1(ushort9_t, *)
 OP_CMP_1(ushort9_t, ==)
 
 typedef struct {
@@ -89,6 +97,8 @@ typedef struct {
 } ushort6_t;
 
 OP_MATH_1(ushort6_t, +)
+OP_MATH_1(ushort6_t, -)
+OP_MATH_1(ushort6_t, *)
 OP_CMP_1(ushort6_t, ==)
 
 typedef struct {
