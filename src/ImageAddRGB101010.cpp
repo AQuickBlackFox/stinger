@@ -7,13 +7,14 @@
 
 #include"Tensor.h"
 #include"Image.h"
+#include"DataTypes.h"
 
 int main(){
     unsigned int height = 64;
     unsigned int width  = 64;
     unsigned int n = height * width;
 
-    typedef uint10_10_10_2 T;
+    typedef stinger::uint10_10_10_2_t T;
 
     stinger::Tensor<T>A(width, height);
     stinger::Tensor<T>B(width, height);
@@ -28,7 +29,7 @@ int main(){
     stinger::fill(C, c);
 
     Init();
-    BuildProgram(LoadKernel("./kernels/imageui.cl"), context);
+    BuildProgram(LoadKernel("./kernels/imagef.cl"), context);
     kernel = clCreateKernel(program, "Filter", &error);
     CL_CHECK(error);
 
@@ -53,8 +54,9 @@ int main(){
 
     ImageC.FromGPU();
 
+
     for(int i=0;i<n;i++) {
-        VALIDATE(C[i], A[i] + B[i], i);
+        VALIDATE(C[i].x, A[i].x + B[i].x, i);
     }
     SUCCESS;
 }

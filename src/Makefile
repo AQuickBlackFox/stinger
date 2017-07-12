@@ -26,6 +26,9 @@ ImageAddRGBAFloat:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) ImageAddRGBAFloat.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGBAFloat
 
+ImageAddRGB101010:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) ImageAddRGB101010.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGB101010
 
 
 image-cl:
