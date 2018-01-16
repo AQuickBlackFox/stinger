@@ -7,7 +7,7 @@ LLVM_LINK=${OPENCL_ROOT}/bin/x86_64/llvm-link
 LLVM_DIS=/opt/rocm/llvm/bin/llvm-dis
 LLC=/opt/rocm/llvm/bin/llc
 
-gfxip=803
+gfxip=900
  
 while (( "$#" ))
 do
@@ -48,7 +48,7 @@ ${CLANG} -c -emit-llvm \
 ${options} -o vadd.orig.bc vadd.cl
 
 ${LLVM_DIS} vadd.orig.bc
-${LLC} -march=amdgcn -mcpu=gfx900 vadd.orig.ll -o vadd.s
+${LLC} -march=amdgcn -mcpu=${gfxip} vadd.orig.ll -o vadd.s
  
 ${LLVM_LINK} -f -o vadd.linked.bc vadd.orig.bc \
 $BITCODE_DIR/opencl.amdgcn.bc \
