@@ -43,3 +43,9 @@ test:
 
 clean:
 	rm -rf ./bin a.out
+
+BufferAddFloat:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) BufferAddFloat.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/BufferAddFloat
+
+

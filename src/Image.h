@@ -104,5 +104,28 @@ public:
     }
 };
 
+template<typename T, cl_mem_flags flags>
+class Buffer2D {
+public:
+    cl_mem buff = NULL;
+    size_t size;
+    Tensor<T> &tensor;
+    Buffer2D(Tensor<T>& tensor) : tensor(tensor) {
+        size = tensor.width * tensor.height * sizeof(T);
+        buff = clCreateBuffer(context, flags, size, NULL, &error);
+        CL_CHECK(error);
+    }
+
+    void ToGPU() {
+        error = clEnqueueWriteBuffer(queue, buff, CL_TRUE, 0, size, tensor.ptr, 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+
+    void FromGPU() {
+        error = clEnqueueReadBuffer(queue, buff, CL_TRUE, 0, size, tensor.ptr, 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+};
+
 }
 

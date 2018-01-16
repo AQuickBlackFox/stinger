@@ -99,7 +99,6 @@ int main(){
     program = clCreateProgramWithSource(context, 1, (const char**)&kernelSource, NULL, &err);
     CL_CHECK(err);
     clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
-
     kernel = clCreateKernel(program, "sGemm", &err);
     CL_CHECK(err);
     d_a = clCreateBuffer(context, CL_MEM_READ_WRITE, bytes, NULL, NULL);
