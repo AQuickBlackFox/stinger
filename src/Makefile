@@ -48,4 +48,8 @@ BufferAddFloat:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) BufferAddFloat.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/BufferAddFloat
 
+BufferAddFloatAsm:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) BufferAddFloatAsm.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/BufferAddFloatAsm
+
 
