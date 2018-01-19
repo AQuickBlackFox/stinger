@@ -7,6 +7,7 @@
 
 #include"Tensor.h"
 #include"Image.h"
+#include"DataTypes.h"
 
 int main(){
     unsigned int height = 64;
@@ -17,24 +18,24 @@ int main(){
 
     stinger::Tensor<T>A(width, height);
     stinger::Tensor<T>B(width, height);
-    stinger::Tensor<T>C(width, height);
+    stinger::Tensor<float>C(width, height);
 
-    T a = {2, 2, 2, 0};
-    T b = {3, 3, 3, 0};
-    T c = {0, 0, 0, 0};
+    T a = {16, 16, 16, 0};
+    T b = {16, 16, 16, 0};
+    float c = 0.0f;
 
     stinger::fill(A, a);
     stinger::fill(B, b);
     stinger::fill(C, c);
 
     Init();
-    BuildProgram(LoadKernel("./kernels/imageui.cl"), context);
+    BuildProgram(LoadKernel("img_accumf.cl"), context);
     kernel = clCreateKernel(program, "Filter", &error);
     CL_CHECK(error);
 
     stinger::Image2D<T, CL_RGB, CL_UNORM_SHORT_555, CL_MEM_READ_ONLY>ImageA(A);
     stinger::Image2D<T, CL_RGB, CL_UNORM_SHORT_555, CL_MEM_READ_ONLY>ImageB(B);
-    stinger::Image2D<T, CL_RGB, CL_UNORM_SHORT_555, CL_MEM_WRITE_ONLY>ImageC(C);
+    stinger::Image2D<float, CL_R, CL_FLOAT, CL_MEM_WRITE_ONLY>ImageC(C);
     ImageA.ToGPU();
     ImageB.ToGPU();
 
@@ -53,10 +54,11 @@ int main(){
 
     ImageC.FromGPU();
 
-    std::cout<<C[0].x<<std::endl;
-
+    std::cout<<C[0]<<std::endl;
+/*
     for(int i=0;i<n;i++) {
-//        VALIDATE(C[i], A[i] + B[i], i);
+        VALIDATE(C[i], A[i].x + B[i].x + A[i].y + B[i].y + A[i].z + B[i].z, i);
     }
     SUCCESS;
+*/
 }

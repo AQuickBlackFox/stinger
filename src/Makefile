@@ -30,6 +30,10 @@ ImageAddRGB101010:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) ImageAddRGB101010.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGB101010
 
+ImageAddRGB555:
+	mkdir -p bin
+	$(CC) -I$(INC_FLAGS) ImageAddRGB555.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGB555
+
 ImageAddRGFloat:
 	mkdir -p bin
 	$(CC) -I$(INC_FLAGS) ImageAddRGFloat.cpp -L$(LIB_DIR) -l$(LIB) -o ./bin/ImageAddRGFloat

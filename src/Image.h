@@ -56,6 +56,56 @@ void CreateKernel(std::string Kernel) {
 namespace stinger {
 
 template<typename T, cl_channel_order Order, cl_channel_type Type, cl_mem_flags Flags>
+class Image1D {
+public:
+    cl_mem img = NULL;
+    size_t width, height;
+    Tensor<T>& tensor;
+    cl_image_format format;
+    size_t origin[3];
+    size_t region[3];
+    Image1D(Tensor<T>& tensor) : 
+        width(tensor.width), height(1), tensor(tensor) {
+        format.image_channel_order = Order;
+        format.image_channel_data_type = Type;
+        origin[0] = 0;
+        origin[1] = 0;
+        origin[2] = 0;
+        region[0] = width;
+        region[1] = height;
+        region[2] = 1;
+        cl_image_desc desc ;
+        desc.image_type = CL_MEM_OBJECT_IMAGE1D;
+        desc.image_width = width;
+        desc.image_height = height;
+        desc.image_depth = 1;
+        desc.image_array_size = 0;
+        desc.image_row_pitch = 0;
+        desc.image_slice_pitch = 0;
+        desc.num_mip_levels = 0;
+        desc.num_samples = 0;
+        desc.buffer = NULL;
+
+        img = clCreateImage(context, Flags, &format, &desc, NULL, &error);
+
+        CL_CHECK(error);
+    }
+
+    void ToGPU() {
+        error = clEnqueueWriteImage(queue, img, CL_TRUE,
+                    origin, region, 0, 0, tensor.data(), 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+
+    void FromGPU() {
+        error = clEnqueueReadImage(queue, img, CL_TRUE,
+                    origin, region, 0, 0, tensor.data(), 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+};
+
+
+template<typename T, cl_channel_order Order, cl_channel_type Type, cl_mem_flags Flags>
 class Image2D {
 public:
     cl_mem img = NULL;
@@ -100,6 +150,29 @@ public:
     void FromGPU() {
         error = clEnqueueReadImage(queue, img, CL_TRUE,
                     origin, region, 0, 0, tensor.data(), 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+};
+
+template<typename T, cl_mem_flags flags>
+class Buffer1D {
+public:
+    cl_mem buff = NULL;
+    size_t size;
+    Tensor<T> &tensor;
+    Buffer1D(Tensor<T>& tensor) : tensor(tensor) {
+        size = tensor.width * sizeof(T);
+        buff = clCreateBuffer(context, flags, size, NULL, &error);
+        CL_CHECK(error);
+    }
+
+    void ToGPU() {
+        error = clEnqueueWriteBuffer(queue, buff, CL_TRUE, 0, size, tensor.ptr, 0, NULL, NULL);
+        CL_CHECK(error);
+    }
+
+    void FromGPU() {
+        error = clEnqueueReadBuffer(queue, buff, CL_TRUE, 0, size, tensor.ptr, 0, NULL, NULL);
         CL_CHECK(error);
     }
 };

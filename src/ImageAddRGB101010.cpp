@@ -54,7 +54,6 @@ int main(){
 
     ImageC.FromGPU();
 
-
     for(int i=0;i<n;i++) {
         VALIDATE(C[i].x, A[i].x + B[i].x, i);
     }
